@@ -3,6 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
+                    <!-- --------------------------------------------------------------------------------- -->
                     <section>
                         <h2 class="text-center"><strong>Formazione Consigliata</strong></h2>
                         <div class="text-start ps-4">
@@ -12,6 +13,7 @@
                         <!-- lista con componente -->
                     </section>
                 </div>
+                <!-- --------------------------------------------------------------------------------- -->
                 <div class="col">
                     <section >
                         <h2 class="text-center"><strong>La mia Rosa</strong></h2>
@@ -23,9 +25,10 @@
                         <!-- Seconda sezione -->
                     </section>
                 </div>
+                <!-- --------------------------------------------------------------------------------- -->
                 <div class="col">
                     <section>
-                        <p>Sezione 3</p>
+                        <p>Ultime 5 giornate Serie A</p>
                         <!-- Terza sezione -->
                     </section>
                 </div>
@@ -41,8 +44,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-//import { Player } from '../types';
+import { Player } from '../types';
 import listOP from '../components/listOP.vue';
+import axios from 'axios';
 
 export default defineComponent({
     components: {
@@ -50,23 +54,21 @@ export default defineComponent({
     },
     data() {
         return {
-            list: [
-                { r: 'P', nome: 'Donnarumma' },
-                { r: 'D', nome: 'Bonucci' },
-                { r: 'D', nome: 'Chiellini' },
-                { r: 'D', nome: 'De Ligt' },
-                { r: 'D', nome: 'Sandro' },
-                { r: 'C', nome: 'Pogba' },
-                { r: 'C', nome: 'Verratti' },
-                { r: 'C', nome: 'Kante' },
-                { r: 'A', nome: 'Giroud' },
-                { r: 'A', nome: 'Messi' },
-                { r: 'A', nome: 'Ronaldo' },
-            ]
+            list: [] as Player[]
         };
     },
     methods: {
-        // Aggiungi qui i tuoi metodi
+        async getAdviceFormation() {
+            try {
+                const response = await axios.get('http://localhost:3000/formation');
+                this.list = response.data;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    },
+    mounted() {
+        this.getAdviceFormation();
     }
 })
 </script>
@@ -86,6 +88,7 @@ export default defineComponent({
         border-top: 1px solid #dee2e6;
         padding: 20px 0;
         text-align: center;
+        margin-top: 5%;
         /* position: fixed;
         bottom: 0;
         width: 100%; */

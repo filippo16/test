@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <p>
+    <div  @click="selectPlayer">
+        <p v-if="listOP">
             <span class="circle" :style="{ backgroundColor: bgColor }">{{ listOP.r }}</span> - {{ listOP.nome }}
         </p>
     </div>
@@ -13,14 +13,13 @@ import { Player } from '../types';
 export default defineComponent({
     props: {
         listOP: {
-            type: Object as () => Player,
+            type: Object as () => Player | null,
             required: true,
-            default: () => ({})
         }
     },
     setup(props) {
         const bgColor = computed(() => {
-            switch (props.listOP.r) {
+            switch (props.listOP?.r) {
                 case 'A':
                     return 'red';
                 case 'C':
@@ -37,7 +36,12 @@ export default defineComponent({
         return {
             bgColor
         };
+    },
+    methods: {
+    selectPlayer() {
+      this.$emit('player-selected', this.listOP);
     }
+  }
 });
 </script>
 
